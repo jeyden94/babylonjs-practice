@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@babylonjs/viewer": "^8.42.0"
+  }
+}
