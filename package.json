@@ -4,5 +4,8 @@
     "@babylonjs/serializers": "^8.42.0",
     "@babylonjs/viewer": "^8.42.0",
     "earcut": "^3.0.2"
+  },
+  "devDependencies": {
+    "vite": "^7.3.0"
   }
 }
