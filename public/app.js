@@ -1,3 +1,5 @@
+import earcut from 'earcut';
+
 const createScene = () => {
     // Engine + Canvas
 
@@ -15,6 +17,8 @@ const createScene = () => {
     const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 5, 2), scene);
   
     buildDwellings();
+
+    buildCar();
    
     engine.runRenderLoop(() => {
         scene.render();
@@ -26,6 +30,32 @@ const createScene = () => {
 
     return scene;
 }
+
+
+const buildCar = () => {
+
+        //base
+    const outline = [
+        new BABYLON.Vector3(-0.3, 0, -0.1),
+        new BABYLON.Vector3(0.2, 0, -0.1),
+    ]
+
+    //curved front
+    for (let i = 0; i < 20; i++) {
+        outline.push(new BABYLON.Vector3(0.2 * Math.cos(i * Math.PI / 40), 0, 0.2 * Math.sin(i * Math.PI / 40) - 0.1));
+    }
+
+    //top
+    outline.push(new BABYLON.Vector3(0, 0, 0.1));
+    outline.push(new BABYLON.Vector3(-0.3, 0, 0.1));
+
+    //back formed automatically
+
+    const car = BABYLON.MeshBuilder.ExtrudePolygon("car", {shape: outline, depth: 0.2});
+
+    // return car;
+}
+
 
 /******Build Functions***********/
 
