@@ -48,8 +48,48 @@ const buildCar = (scene) => {
 
     outline.push(new BABYLON.Vector3(0, 0, 0.1));
     outline.push(new BABYLON.Vector3(-0.3, 0, 0.1));
+    
+    const faceUV = [];
+    faceUV[0] = new BABYLON.Vector4(0, 0.5, 0.38, 1);
+    faceUV[1] = new BABYLON.Vector4(0, 0, 1, 0.5);
+    faceUV[2] = new BABYLON.Vector4(0.38, 1, 0, 0.5);
 
-    const car = BABYLON.MeshBuilder.ExtrudePolygon("car", {shape: outline, depth: 0.2}, scene, earcut);
+    //material
+    const carMat = new BABYLON.StandardMaterial("carMat");
+    carMat.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/car.png");
+
+
+    const car = BABYLON.MeshBuilder.ExtrudePolygon("car", {shape: outline, depth: 0.2, faceUV: faceUV, wrap: true}, scene, earcut);
+    car.material = carMat;
+
+    const wheelUV = [];
+    wheelUV[0] = new BABYLON.Vector4(0, 0, 1, 1);
+    wheelUV[1] = new BABYLON.Vector4(0, 0.5, 0, 0.5);
+    wheelUV[2] = new BABYLON.Vector4(0, 0, 1, 1);
+    
+    //car material
+    const wheelMat = new BABYLON.StandardMaterial("wheelMat");
+    wheelMat.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/wheel.png");
+
+    const wheelRB = BABYLON.MeshBuilder.CreateCylinder("wheelRB", {diameter: 0.125, height: 0.05, faceUV: wheelUV, wrap: true})
+    wheelRB.material = wheelMat;
+    wheelRB.parent = car;
+    wheelRB.position.z = -0.1;
+    wheelRB.position.x = -0.2;
+    wheelRB.position.y = 0.035;
+
+    const wheelRF = wheelRB.clone("wheelRF");
+    wheelRF.position.x = 0.1;
+
+    const wheelLB = wheelRB.clone("wheelLB");
+    wheelLB.position.y = -0.2 - 0.035;
+
+    const wheelLF = wheelRF.clone("wheelLF");
+    wheelLF.position.y = -0.2 - 0.035;
+
+    car.rotation.x = Math.PI * -.5;
+    car.position.y = .16;
+    car.position.z = 1;
 
     return car;
 }
